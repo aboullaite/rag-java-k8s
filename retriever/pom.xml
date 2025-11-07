@@ -15,6 +15,7 @@
 
     <properties>
         <opensearch.client.version>2.13.0</opensearch.client.version>
+        <image.registry>europe-north1-docker.pkg.dev/mohamed-playground/rag-demo</image.registry>
     </properties>
 
     <dependencies>
@@ -83,7 +84,7 @@
                         <image>azul/zulu-openjdk:25-jre-latest</image>
                     </from>
                     <to>
-                        <image>europe-north1-docker.pkg.dev/mohamed-playground/rag-demo/rag-retriever:v1.0.0</image>
+                        <image>${image.registry}/rag-retriever:v1.0.0</image>
                     </to>
                     <container>
                         <mainClass>me.aboullaite.rag.retriever.RetrieverApplication</mainClass>

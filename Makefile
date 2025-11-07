@@ -54,8 +54,8 @@ help:
 # Build targets
 build:
 	./mvnw -DskipTests clean verify
-	./mvnw -pl retriever jib:build --no-transfer-progress
-	./mvnw -pl orchestrator jib:build --no-transfer-progress
+	./mvnw -pl retriever jib:build -Dimage.registry=$(REGISTRY) --no-transfer-progress
+	./mvnw -pl orchestrator jib:build -Dimage.registry=$(REGISTRY) --no-transfer-progress
 
 build-local:
 	./mvnw -DskipTests clean verify
