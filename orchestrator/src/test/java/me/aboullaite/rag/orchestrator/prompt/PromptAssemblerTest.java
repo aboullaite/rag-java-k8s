@@ -27,7 +27,7 @@ class PromptAssemblerTest {
 
         assertThat(bundle.prompt()).contains("System prompt")
                 .contains("Doc ID: doc-1")
-                .contains("User question:\nExplain deployment");
+                .contains("Question: Explain deployment");
         assertThat(bundle.citations()).containsExactly("doc-1");
     }
 
@@ -35,7 +35,7 @@ class PromptAssemblerTest {
     void enforcesIdkWhenNoContext() {
         PromptAssembler.PromptBundle bundle = assembler.assemble("Explain deployment", List.of());
 
-        assertThat(bundle.prompt()).contains("respond with \"I don't know.\"");
+        assertThat(bundle.prompt()).contains("respond with: \"I don't know. This information is not available in the knowledge base.\"");
         assertThat(bundle.citations()).isEmpty();
     }
 }
