@@ -1,0 +1,22 @@
+[INFO] Scanning for projects...
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-dependencies/3.3.4/spring-boot-dependencies-3.3.4.pom
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/opentelemetry/opentelemetry-bom/1.36.0/opentelemetry-bom-1.36.0.pom
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/testcontainers/testcontainers-bom/1.20.2/testcontainers-bom-1.20.2.pom
+[ERROR] [ERROR] Some problems were encountered while processing the POMs:
+[ERROR] Non-resolvable import POM: The following artifacts could not be resolved: org.springframework.boot:spring-boot-dependencies:pom:3.3.4 (absent): Could not transfer artifact org.springframework.boot:spring-boot-dependencies:pom:3.3.4 from/to central (https://repo.maven.apache.org/maven2): repo.maven.apache.org: nodename nor servname provided, or not known @ line 35, column 25
+[ERROR] Non-resolvable import POM: The following artifacts could not be resolved: io.opentelemetry:opentelemetry-bom:pom:1.36.0 (absent): Could not transfer artifact io.opentelemetry:opentelemetry-bom:pom:1.36.0 from/to central (https://repo.maven.apache.org/maven2): repo.maven.apache.org @ line 42, column 25
+[ERROR] Non-resolvable import POM: The following artifacts could not be resolved: org.testcontainers:testcontainers-bom:pom:1.20.2 (absent): Could not transfer artifact org.testcontainers:testcontainers-bom:pom:1.20.2 from/to central (https://repo.maven.apache.org/maven2): repo.maven.apache.org @ line 49, column 25
+ @ 
+[ERROR] The build could not read 1 project -> [Help 1]
+[ERROR]   
+[ERROR]   The project me.aboullaite.rag:rag-java:0.1.0-SNAPSHOT (/Users/maboullaite/Projects/rag-java-k8s/pom.xml) has 3 errors
+[ERROR]     Non-resolvable import POM: The following artifacts could not be resolved: org.springframework.boot:spring-boot-dependencies:pom:3.3.4 (absent): Could not transfer artifact org.springframework.boot:spring-boot-dependencies:pom:3.3.4 from/to central (https://repo.maven.apache.org/maven2): repo.maven.apache.org: nodename nor servname provided, or not known @ line 35, column 25: Unknown host repo.maven.apache.org: nodename nor servname provided, or not known -> [Help 2]
+[ERROR]     Non-resolvable import POM: The following artifacts could not be resolved: io.opentelemetry:opentelemetry-bom:pom:1.36.0 (absent): Could not transfer artifact io.opentelemetry:opentelemetry-bom:pom:1.36.0 from/to central (https://repo.maven.apache.org/maven2): repo.maven.apache.org @ line 42, column 25: Unknown host repo.maven.apache.org -> [Help 2]
+[ERROR]     Non-resolvable import POM: The following artifacts could not be resolved: org.testcontainers:testcontainers-bom:pom:1.20.2 (absent): Could not transfer artifact org.testcontainers:testcontainers-bom:pom:1.20.2 from/to central (https://repo.maven.apache.org/maven2): repo.maven.apache.org @ line 49, column 25: Unknown host repo.maven.apache.org -> [Help 2]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/ProjectBuildingException
+[ERROR] [Help 2] http://cwiki.apache.org/confluence/display/MAVEN/UnresolvableModelException

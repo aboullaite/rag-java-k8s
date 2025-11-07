@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: retriever
+  namespace: rag
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: orchestrator
+  namespace: rag
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ingest-job
+  namespace: rag

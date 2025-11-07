@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: orchestrator
+  namespace: rag
+spec:
+  hosts:
+    - orchestrator.rag.svc.cluster.local
+  gateways:
+    - mesh
+  http:
+    - route:
+        - destination:
+            host: orchestrator.rag.svc.cluster.local
+            port:
+              number: 8080
+      timeout: 2s
+      retries:
+        attempts: 2
+        perTryTimeout: 800ms

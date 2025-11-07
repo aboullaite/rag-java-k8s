@@ -1,0 +1,37 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: rag-llm
+  namespace: rag
+spec:
+  predictor:
+    serviceAccountName: orchestrator
+    minReplicas: 0
+    maxReplicas: 1
+    scaleTarget: 1
+    scaleMetric: concurrency
+    model:
+      runtime: vllm-runtime
+      modelFormat:
+        name: huggingface
+      args:
+        - --model
+        - google/gemma-2-2b-it
+        - --dtype
+        - auto
+        - --max-model-len
+        - "4096"
+      env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: hf-token
+              key: token
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+          cpu: "3"
+          memory: 12Gi
+        requests:
+          cpu: "2"
+          memory: 8Gi

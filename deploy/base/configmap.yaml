@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: retriever-config
+  namespace: rag
+data:
+  RETRIEVAL_TIMEOUT_MS: "250"
+  WEAVIATE_URL: "http://weaviate.rag.svc.cluster.local:8080"
+  OPENSEARCH_URL: "http://opensearch.rag.svc.cluster.local:9200"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: orchestrator-config
+  namespace: rag
+data:
+  RETRIEVER_URL: "http://retriever.rag.svc.cluster.local:8081"
+  LLM_URL: "http://rag-llm-predictor.rag.svc.cluster.local/v1/completions"
+  CACHE_SIM_THRESHOLD: "0.9"
+  GEN_TIMEOUT_MS: "30000"
+  MODEL_NAME: "google/gemma-2-2b-it"

@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: retriever
+  main:
+    web-application-type: reactive
+
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+retriever:
+  weaviate-url: ${WEAVIATE_URL:http://weaviate.rag.svc.cluster.local:8080}
+  opensearch-url: ${OPENSEARCH_URL:}
+  timeout-ms: ${RETRIEVAL_TIMEOUT_MS:250}
+  top-k-default: 5
+
+weaviate:
+  class-name: Doc

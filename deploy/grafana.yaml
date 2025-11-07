@@ -1,0 +1,172 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  namespace: observability
+  labels:
+    grafana_datasource: "1"
+data:
+  datasources.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus-server.observability.svc.cluster.local:9090
+        isDefault: true
+      - name: Tempo
+        type: tempo
+        access: proxy
+        url: http://tempo.observability.svc.cluster.local:3100
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-rag
+  namespace: observability
+  labels:
+    grafana_dashboard: "1"
+data:
+  dashboards.yaml: |
+    apiVersion: 1
+    providers:
+      - name: rag
+        orgId: 1
+        folder: ""
+        type: file
+        options:
+          path: /var/lib/grafana/dashboards
+  rag-dashboard.json: |
+    {
+      "uid": "rag-main",
+      "title": "RAG Pipeline Overview",
+      "timezone": "browser",
+      "schemaVersion": 38,
+      "version": 1,
+      "refresh": "10s",
+      "panels": [
+        {
+          "type": "timeseries",
+          "title": "End-to-end Latency",
+          "datasource": {"type": "prometheus", "uid": "Prometheus"},
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.5, sum(rate(http_server_requests_seconds_bucket{app=\"orchestrator\", uri=\"/v1/ask\"}[5m])) by (le))",
+              "legendFormat": "p50"
+            },
+            {
+              "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{app=\"orchestrator\", uri=\"/v1/ask\"}[5m])) by (le))",
+              "legendFormat": "p95"
+            },
+            {
+              "expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{app=\"orchestrator\", uri=\"/v1/ask\"}[5m])) by (le))",
+              "legendFormat": "p99"
+            }
+          ],
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+        },
+        {
+          "type": "timeseries",
+          "title": "Cache Hit Ratio",
+          "datasource": {"type": "prometheus", "uid": "Prometheus"},
+          "targets": [
+            {
+              "expr": "rate(rag_cache_hit_total[5m]) / (rate(rag_cache_hit_total[5m]) + rate(rag_cache_miss_total[5m]))",
+              "legendFormat": "hit ratio"
+            }
+          ],
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+        },
+        {
+          "type": "timeseries",
+          "title": "Retriever Hit@K",
+          "datasource": {"type": "prometheus", "uid": "Prometheus"},
+          "targets": [
+            {
+              "expr": "sum(rate(rag_retrieval_latency_seconds_count[5m]))",
+              "legendFormat": "requests"
+            },
+            {
+              "expr": "sum(rag_retrieval_fallback_total)",
+              "legendFormat": "fallbacks"
+            }
+          ],
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+        },
+        {
+          "type": "timeseries",
+          "title": "Token Throughput & Cost",
+          "datasource": {"type": "prometheus", "uid": "Prometheus"},
+          "targets": [
+            {
+              "expr": "rate(rag_tokens_generated_total[5m])",
+              "legendFormat": "tokens/sec"
+            },
+            {
+              "expr": "rate(rag_cost_usd_total_sum[5m])",
+              "legendFormat": "cost usd/sec"
+            }
+          ],
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+        }
+      ]
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: observability
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:10.4.2
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: admin
+          volumeMounts:
+            - name: datasources
+              mountPath: /etc/grafana/provisioning/datasources
+            - name: dashboards
+              mountPath: /etc/grafana/provisioning/dashboards
+            - name: dashboard-config
+              mountPath: /var/lib/grafana/dashboards
+      volumes:
+        - name: datasources
+          configMap:
+            name: grafana-datasources
+        - name: dashboards
+          configMap:
+            name: grafana-dashboard-rag
+            items:
+              - key: dashboards.yaml
+                path: dashboards.yaml
+        - name: dashboard-config
+          configMap:
+            name: grafana-dashboard-rag
+            items:
+              - key: rag-dashboard.json
+                path: rag-dashboard.json
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: observability
+spec:
+  selector:
+    app: grafana
+  ports:
+    - port: 3000
+      targetPort: 3000

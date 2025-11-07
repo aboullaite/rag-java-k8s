@@ -1,0 +1,11 @@
+target/
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.jar.*
+.mvn/wrapper/.checksum
+.idea/
+.DS_Store
+*.iml
+logs/
+.m2/
+# Environment configuration
+.env

@@ -1,0 +1,34 @@
+apiVersion: serving.kserve.io/v1alpha1
+kind: ClusterServingRuntime
+metadata:
+  name: vllm-runtime
+spec:
+  supportedModelFormats:
+    - name: huggingface
+      version: "1"
+      autoSelect: true
+  containers:
+    - name: kserve-container
+      image: vllm/vllm-openai:v0.6.2
+      command:
+        - python3
+        - -m
+        - vllm.entrypoints.openai.api_server
+      args:
+        - --model
+        - "{{.Name}}"
+        - --port
+        - "8080"
+        - --download-dir
+        - /tmp/hf-cache
+      env:
+        - name: HF_HOME
+          value: /tmp/hf-cache
+      resources:
+        requests:
+          cpu: "4"
+          memory: 16Gi
+        limits:
+          cpu: "8"
+          memory: 32Gi
+          nvidia.com/gpu: "1"

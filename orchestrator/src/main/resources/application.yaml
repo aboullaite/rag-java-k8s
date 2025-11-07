@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: orchestrator
+  main:
+    web-application-type: reactive
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:redis.rag.svc.cluster.local}
+      port: ${SPRING_REDIS_PORT:6379}
+  webflux:
+    static-path-pattern: /**
+  web:
+    resources:
+      static-locations: classpath:/static/
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+rag:
+  retriever-url: ${RETRIEVER_URL:http://retriever.rag.svc.cluster.local:8081}
+  llm-url: ${LLM_URL:http://kserve-model.rag.svc.cluster.local/v1/models/rag:predict}
+  cache-sim-threshold: ${CACHE_SIM_THRESHOLD:0.90}
+  gen-timeout-ms: ${GEN_TIMEOUT_MS:1800}
+  model-name: ${MODEL_NAME:gemma-2-2b-it}
+  system-prompt: |
+    You are a helpful assistant that answers questions based solely on the provided context documents.
+
+    IMPORTANT RULES:
+    - Only use information from the provided context to answer questions
+    - Always cite sources using document IDs in square brackets (e.g., [doc-1])
+    - If the answer is not contained in the context, respond with "I don't know."
+    - Never use external knowledge or make assumptions beyond the provided context
+    - Keep answers concise, factual, and directly supported by the context

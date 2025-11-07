@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: weaviate
+  namespace: rag
+  labels:
+    app: weaviate
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: weaviate
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: weaviate
+  namespace: rag
+spec:
+  serviceName: weaviate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weaviate
+  template:
+    metadata:
+      labels:
+        app: weaviate
+    spec:
+      serviceAccountName: retriever
+      containers:
+        - name: weaviate
+          image: semitechnologies/weaviate:1.26.3
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: QUERY_DEFAULTS_LIMIT
+              value: "20"
+            - name: AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED
+              value: "true"
+            - name: PERSISTENCE_DATA_PATH
+              value: /var/lib/weaviate
+            - name: ENABLE_MODULES
+              value: text2vec-transformers
+            - name: TRANSFORMERS_INFERENCE_API
+              value: http://localhost:8081
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/weaviate
+        - name: text2vec
+          image: semitechnologies/transformers-inference:sentence-transformers-all-MiniLM-L6-v2
+          command: ["uvicorn"]
+          args: ["app:app", "--host", "0.0.0.0", "--port", "8081"]
+          ports:
+            - containerPort: 8081
+          resources:
+            limits:
+              cpu: "1"
+              memory: 2Gi
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi

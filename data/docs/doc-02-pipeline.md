@@ -1,0 +1,10 @@
+# Pipeline Walkthrough
+
+1. **Client request.** A user issues a question through the `/v1/ask` endpoint. The orchestrator service strips personally identifiable patterns, normalizes the prompt, and computes a deterministic embedding used for semantic caching.
+2. **Semantic cache lookup.** Redis stores normalized queries, embeddings, responses, and citation lists. A cosine similarity threshold of 0.90 determines whether a cached answer is reused or a fresh retrieval is required. Cache hits short-circuit the pipeline, returning the stored answer and updating metrics such as `rag.cache.hit`.
+3. **Retriever invocation.** For cache misses, the orchestrator contracts the retriever service via a reactive HTTP call. The retriever queries Weaviate with a top-k budget (default 5) and a timebox of 250 ms. Partial results are returned if the vector query nears the deadline.
+4. **Fallback strategy.** Should Weaviate time out or fail, the retriever automatically falls back to OpenSearch. Lexical hits are ranked by BM25 score and returned so that the user request still resolves successfully.
+5. **Prompt assembly.** Retrieved documents are transformed into structured context blocks. Metadata such as `source` and `section` remains visible alongside chunk text and the canonical doc identifier. The orchestrator enforces instructions that every answer must cite at least one document or respond with “I don’t know.”
+6. **Generation.** KServe hosts a vLLM runtime backed by a Llama-family instruct model. The orchestrator calls the model with temperature and token limits defined in configuration, measuring first token latency (TTFT) and total token count.
+7. **Streaming response.** Token chunks are streamed back to the client via Server-Sent Events (SSE). The final event includes the list of citations and whether the answer was partial.
+8. **Observation loop.** OpenTelemetry spans capture retrieval, re-ranking, cache decisions, and generation metadata. Micrometer publishes counters and histograms for Prometheus. Grafana dashboards visualize latency percentiles, cache efficiency, fallback rate, and cost per request.

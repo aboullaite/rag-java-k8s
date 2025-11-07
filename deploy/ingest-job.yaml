@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rag-ingest
+  namespace: rag
+spec:
+  backoffLimit: 1
+  template:
+    metadata:
+      labels:
+        app: rag-ingest
+    spec:
+      serviceAccountName: ingest-job
+      restartPolicy: Never
+      containers:
+        - name: ingest
+          image: python:3.11-slim
+          command:
+            - bash
+            - -c
+            - |
+              pip install --no-cache-dir requests && \
+              python /scripts/ingest.py
+          env:
+            - name: WEAVIATE_URL
+              value: http://weaviate.rag.svc.cluster.local:8080
+            - name: DOCS_PATH
+              value: /docs
+          volumeMounts:
+            - name: ingest-script
+              mountPath: /scripts
+            - name: docs
+              mountPath: /docs
+      volumes:
+        - name: ingest-script
+          configMap:
+            name: ingest-script
+        - name: docs
+          configMap:
+            name: docs-data
