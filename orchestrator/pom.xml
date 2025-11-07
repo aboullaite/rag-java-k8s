@@ -75,7 +75,7 @@
                         <image>azul/zulu-openjdk:25-jre-latest</image>
                     </from>
                     <to>
-                        <image>${image.registry}/rag-orchestrator:v1.0.0</image>
+                        <image>${image.registry}/rag-orchestrator:${project.version}</image>
                     </to>
                     <container>
                         <mainClass>me.aboullaite.rag.orchestrator.OrchestratorApplication</mainClass>
