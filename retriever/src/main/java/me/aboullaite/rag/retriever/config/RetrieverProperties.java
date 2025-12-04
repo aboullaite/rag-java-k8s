@@ -3,7 +3,7 @@ package me.aboullaite.rag.retriever.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "retriever")
-public class RetrieverProperties {
+public class AM@RetrieverProperties {
 
     /**
      * Base URL for Weaviate, e.g. http://weaviate:8080.
