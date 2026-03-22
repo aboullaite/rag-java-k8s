@@ -18,6 +18,7 @@
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
+            --info: #3b82f6;
             --bg-light: #f9fafb;
             --bg-dark: #111827;
             --surface-light: #ffffff;
@@ -235,6 +236,7 @@
             gap: 10px;
             margin-bottom: 8px;
             font-weight: 600;
+            flex-wrap: wrap;
         }
 
         .message-avatar {
@@ -278,6 +280,71 @@
             border-color: var(--border-dark);
         }
 
+        /* Markdown styles inside message content */
+        .message-content .md-content h1,
+        .message-content .md-content h2,
+        .message-content .md-content h3 {
+            margin: 12px 0 6px 0;
+            line-height: 1.3;
+        }
+        .message-content .md-content h1 { font-size: 1.4rem; }
+        .message-content .md-content h2 { font-size: 1.2rem; }
+        .message-content .md-content h3 { font-size: 1.05rem; }
+
+        .message-content .md-content p {
+            margin: 6px 0;
+        }
+
+        .message-content .md-content code {
+            background: rgba(99, 102, 241, 0.12);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.9em;
+        }
+
+        body.dark-mode .message-content .md-content code {
+            background: rgba(99, 102, 241, 0.25);
+        }
+
+        .message-content .md-content pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 12px 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .message-content .md-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .message-content .md-content ul,
+        .message-content .md-content ol {
+            margin: 6px 0 6px 20px;
+        }
+
+        .message-content .md-content li {
+            margin: 3px 0;
+        }
+
+        .message-content .md-content a {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .message-content .md-content blockquote {
+            border-left: 3px solid var(--primary);
+            padding-left: 12px;
+            margin: 8px 0;
+            opacity: 0.85;
+        }
+
         /* Citations */
         .citations {
             margin-top: 15px;
@@ -302,6 +369,153 @@
 
         .citation-tag:hover {
             transform: scale(1.05);
+        }
+
+        /* Source Snippets (collapsible) */
+        .source-snippets {
+            margin-top: 12px;
+        }
+
+        .source-card {
+            border: 1px solid var(--border-light);
+            border-left: 3px solid var(--primary);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+
+        body.dark-mode .source-card {
+            border-color: var(--border-dark);
+            border-left-color: var(--primary);
+        }
+
+        .source-card:hover {
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+        }
+
+        .source-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 600;
+            background: rgba(99, 102, 241, 0.05);
+            user-select: none;
+        }
+
+        body.dark-mode .source-card-header {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .source-card-header:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        body.dark-mode .source-card-header:hover {
+            background: rgba(99, 102, 241, 0.18);
+        }
+
+        .source-card-chevron {
+            transition: transform 0.25s ease;
+            font-size: 0.75rem;
+            opacity: 0.6;
+        }
+
+        .source-card.expanded .source-card-chevron {
+            transform: rotate(90deg);
+        }
+
+        .source-card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .source-card.expanded .source-card-body {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .source-card-content {
+            padding: 10px 14px;
+            font-size: 0.84rem;
+            line-height: 1.5;
+            opacity: 0.85;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .source-card-meta {
+            font-size: 0.78rem;
+            opacity: 0.6;
+            margin-left: 8px;
+            font-weight: 400;
+        }
+
+        /* Confidence Badge */
+        .confidence-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .confidence-cached {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--info);
+        }
+
+        .confidence-high {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .confidence-limited {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+        }
+
+        .confidence-none {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        /* Skeleton Loader */
+        .skeleton-loader {
+            margin-left: 42px;
+            padding: 15px;
+        }
+
+        .skeleton-bar {
+            height: 14px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--border-light) 25%, rgba(99,102,241,0.08) 50%, var(--border-light) 75%);
+            background-size: 200% 100%;
+            animation: skeletonPulse 1.5s ease-in-out infinite;
+        }
+
+        body.dark-mode .skeleton-bar {
+            background: linear-gradient(90deg, var(--border-dark) 25%, rgba(99,102,241,0.15) 50%, var(--border-dark) 75%);
+            background-size: 200% 100%;
+            animation: skeletonPulse 1.5s ease-in-out infinite;
+        }
+
+        .skeleton-bar:nth-child(1) { width: 90%; }
+        .skeleton-bar:nth-child(2) { width: 75%; }
+        .skeleton-bar:nth-child(3) { width: 85%; }
+        .skeleton-bar:nth-child(4) { width: 40%; }
+
+        @keyframes skeletonPulse {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         /* Input Area */
@@ -420,7 +634,7 @@
             opacity: 0.7;
         }
 
-        /* Loading */
+        /* Loading spinner (kept for send button) */
         .loading {
             display: inline-block;
             width: 20px;
@@ -601,34 +815,6 @@
             opacity: 0.8;
         }
 
-        /* Cache Hit Badge */
-        .cache-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-            margin-left: 8px;
-        }
-
-        /* Fallback Badge */
-        .fallback-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-            margin-left: 8px;
-        }
-
         /* Document Browser */
         .documents-panel {
             cursor: pointer;
@@ -710,7 +896,7 @@
     <div class="container">
         <header>
             <h1>
-                🧠 RAG Knowledge Assistant
+                RAG Knowledge Assistant
                 <span class="badge">Java 25</span>
                 <span class="badge">Spring Boot 3.5.7</span>
             </h1>
@@ -721,8 +907,8 @@
             <!-- Left Panel: Controls -->
             <div class="panel">
                 <div class="panel-header">
-                    ⚙️ Configuration
-                    <span class="theme-toggle" onclick="toggleTheme()">🌓</span>
+                    Configuration
+                    <span class="theme-toggle" onclick="toggleTheme()">&#9790;</span>
                 </div>
 
                 <div class="control-group">
@@ -757,7 +943,7 @@
 
                 <div class="control-group">
                     <button onclick="testConnection()" style="width: 100%; justify-content: center;">
-                        🔌 Test Connection
+                        Test Connection
                     </button>
                 </div>
 
@@ -767,16 +953,16 @@
             <!-- Center Panel: Chat -->
             <div class="panel">
                 <div class="panel-header">
-                    💬 Conversation
+                    Conversation
                     <button onclick="clearChat()" style="padding: 8px 16px; font-size: 0.9rem;">
-                        🗑️ Clear
+                        Clear
                     </button>
                 </div>
 
                 <div class="chat-container">
                     <div class="messages" id="messages">
                         <div class="empty-state">
-                            <div class="empty-state-icon">🚀</div>
+                            <div class="empty-state-icon">&#128640;</div>
                             <div class="empty-state-text">Ready to assist!</div>
                             <div class="empty-state-hint">Ask me anything about your knowledge base</div>
                         </div>
@@ -788,7 +974,6 @@
                                   rows="3"
                                   onkeydown="handleKeyPress(event)"></textarea>
                         <button onclick="sendQuery()" id="sendButton">
-                            <span>📤</span>
                             <span>Send</span>
                         </button>
                     </div>
@@ -798,7 +983,7 @@
             <!-- Right Panel: Stats & History -->
             <div>
                 <div class="panel" style="margin-bottom: 20px;">
-                    <div class="panel-header">📊 Statistics</div>
+                    <div class="panel-header">Statistics</div>
 
                     <div class="stats-grid">
                         <div class="stat-card">
@@ -820,14 +1005,14 @@
                 </div>
 
                 <div class="panel" style="margin-bottom: 20px;">
-                    <div class="panel-header">🕒 History</div>
+                    <div class="panel-header">History</div>
                     <div id="history"></div>
                 </div>
 
                 <div class="panel documents-panel">
                     <div class="panel-header documents-header" onclick="toggleDocuments()">
-                        <span>📚 Knowledge Base</span>
-                        <span class="expand-icon" id="expandIcon">▼</span>
+                        <span>Knowledge Base</span>
+                        <span class="expand-icon" id="expandIcon">&#9660;</span>
                     </div>
                     <div class="documents-content" id="documentsContent">
                         <div id="documentsList"></div>
@@ -843,6 +1028,241 @@
         let queryHistory = [];
         let totalQueries = 0;
         let responseTimes = [];
+
+        // ---- Lightweight Markdown Renderer ----
+        function renderMarkdown(text) {
+            if (!text) return '';
+
+            // Escape HTML first to prevent injection
+            let html = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // Code blocks (``` ... ```) - must come before inline processing
+            html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, function(_, lang, code) {
+                return '<pre><code>' + code.trim() + '</code></pre>';
+            });
+
+            // Split into lines for block-level processing, but preserve code blocks
+            const codeBlockPlaceholders = [];
+            html = html.replace(/<pre><code>[\s\S]*?<\/code><\/pre>/g, function(match) {
+                codeBlockPlaceholders.push(match);
+                return '%%CODEBLOCK' + (codeBlockPlaceholders.length - 1) + '%%';
+            });
+
+            // Process line by line for block elements
+            const lines = html.split('\n');
+            const processed = [];
+            let inList = false;
+            let listType = '';
+
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+
+                // Check for code block placeholder
+                if (/^%%CODEBLOCK\d+%%$/.test(line.trim())) {
+                    if (inList) { processed.push(listType === 'ul' ? '</ul>' : '</ol>'); inList = false; }
+                    processed.push(line);
+                    continue;
+                }
+
+                // Headings
+                const headingMatch = line.match(/^(#{1,3})\s+(.+)$/);
+                if (headingMatch) {
+                    if (inList) { processed.push(listType === 'ul' ? '</ul>' : '</ol>'); inList = false; }
+                    const level = headingMatch[1].length;
+                    processed.push('<h' + level + '>' + applyInline(headingMatch[2]) + '</h' + level + '>');
+                    continue;
+                }
+
+                // Unordered list items
+                const ulMatch = line.match(/^\s*[-*]\s+(.+)$/);
+                if (ulMatch) {
+                    if (!inList || listType !== 'ul') {
+                        if (inList) processed.push(listType === 'ul' ? '</ul>' : '</ol>');
+                        processed.push('<ul>');
+                        inList = true;
+                        listType = 'ul';
+                    }
+                    processed.push('<li>' + applyInline(ulMatch[1]) + '</li>');
+                    continue;
+                }
+
+                // Ordered list items
+                const olMatch = line.match(/^\s*\d+\.\s+(.+)$/);
+                if (olMatch) {
+                    if (!inList || listType !== 'ol') {
+                        if (inList) processed.push(listType === 'ul' ? '</ul>' : '</ol>');
+                        processed.push('<ol>');
+                        inList = true;
+                        listType = 'ol';
+                    }
+                    processed.push('<li>' + applyInline(olMatch[1]) + '</li>');
+                    continue;
+                }
+
+                // Close list if needed
+                if (inList) {
+                    processed.push(listType === 'ul' ? '</ul>' : '</ol>');
+                    inList = false;
+                }
+
+                // Empty line
+                if (line.trim() === '') {
+                    processed.push('');
+                    continue;
+                }
+
+                // Paragraph
+                processed.push('<p>' + applyInline(line) + '</p>');
+            }
+
+            if (inList) {
+                processed.push(listType === 'ul' ? '</ul>' : '</ol>');
+            }
+
+            html = processed.join('\n');
+
+            // Restore code blocks
+            codeBlockPlaceholders.forEach(function(block, i) {
+                html = html.replace('%%CODEBLOCK' + i + '%%', block);
+            });
+
+            // Clean up empty paragraphs
+            html = html.replace(/<p>\s*<\/p>/g, '');
+
+            return html;
+        }
+
+        function applyInline(text) {
+            // Inline code (must come first to protect contents)
+            const inlineCodeParts = [];
+            text = text.replace(/`([^`]+)`/g, function(_, code) {
+                inlineCodeParts.push('<code>' + code + '</code>');
+                return '%%ICODE' + (inlineCodeParts.length - 1) + '%%';
+            });
+
+            // Bold
+            text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            text = text.replace(/__(.+?)__/g, '<strong>$1</strong>');
+
+            // Italic
+            text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            text = text.replace(/_(.+?)_/g, '<em>$1</em>');
+
+            // Links
+            text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+            // Restore inline code
+            inlineCodeParts.forEach(function(code, i) {
+                text = text.replace('%%ICODE' + i + '%%', code);
+            });
+
+            return text;
+        }
+
+        // ---- Confidence Badge Builder ----
+        function buildConfidenceBadge(metadata, citations, isPartial) {
+            if (!metadata && !isPartial && (!citations || citations.length === 0)) {
+                return '';
+            }
+
+            // No results at all
+            if ((!citations || citations.length === 0) && !metadata) {
+                return '<span class="confidence-badge confidence-none">No matching documents</span>';
+            }
+
+            // Cache hit
+            if (metadata && metadata.cacheHit) {
+                const pct = metadata.cacheSimilarity ? Math.round(metadata.cacheSimilarity * 100) : 100;
+                return '<span class="confidence-badge confidence-cached">Cached (' + pct + '% match)</span>';
+            }
+
+            // Partial or fallback
+            if (isPartial || (metadata && metadata.llmFallback)) {
+                return '<span class="confidence-badge confidence-limited">Limited results</span>';
+            }
+
+            // Normal with citations
+            if (citations && citations.length > 0) {
+                return '<span class="confidence-badge confidence-high">High confidence</span>';
+            }
+
+            // No matching docs
+            return '<span class="confidence-badge confidence-none">No matching documents</span>';
+        }
+
+        // ---- Citation Display Builder ----
+        function buildCitationsHTML(citations, citationDetails) {
+            if (citationDetails && citationDetails.length > 0) {
+                const tags = citationDetails.map(function(c) {
+                    var displayText = c.section ? c.section.replace(/^#+\s*/, '') : (c.source || c.id);
+                    var title = (c.source || '') + (c.section ? ' - ' + c.section : '');
+                    return '<span class="citation-tag" title="' + escapeAttr(title) + '">' + escapeHtml(displayText) + '</span>';
+                }).join('');
+                return '<div class="citations"><strong>Sources:</strong><br>' + tags + '</div>';
+            }
+
+            if (citations && citations.length > 0) {
+                // Try to show something meaningful even with raw IDs
+                const tags = citations.map(function(c) {
+                    var short = c.length > 20 ? c.substring(0, 8) + '...' : c;
+                    return '<span class="citation-tag" title="' + escapeAttr(c) + '">' + escapeHtml(short) + '</span>';
+                }).join('');
+                return '<div class="citations"><strong>Sources:</strong><br>' + tags + '</div>';
+            }
+
+            return '';
+        }
+
+        // ---- Source Snippets Builder ----
+        function buildSourceSnippets(citationDetails) {
+            if (!citationDetails || citationDetails.length === 0) return '';
+
+            var cards = citationDetails.map(function(c) {
+                var name = c.section ? c.section.replace(/^#+\s*/, '') : (c.source || c.id || 'Source');
+                var meta = c.source ? c.source : '';
+                var content = c.content || c.text || '';
+                if (!content) return '';
+
+                return '<div class="source-card" onclick="this.classList.toggle(\'expanded\')">' +
+                    '<div class="source-card-header">' +
+                        '<span>' + escapeHtml(name) +
+                            (meta && meta !== name ? '<span class="source-card-meta">' + escapeHtml(meta) + '</span>' : '') +
+                        '</span>' +
+                        '<span class="source-card-chevron">&#9654;</span>' +
+                    '</div>' +
+                    '<div class="source-card-body">' +
+                        '<div class="source-card-content">' + escapeHtml(content) + '</div>' +
+                    '</div>' +
+                '</div>';
+            }).filter(Boolean).join('');
+
+            if (!cards) return '';
+            return '<div class="source-snippets">' + cards + '</div>';
+        }
+
+        // ---- Skeleton Loader HTML ----
+        function buildSkeletonHTML() {
+            return '<div class="skeleton-loader">' +
+                '<div class="skeleton-bar"></div>' +
+                '<div class="skeleton-bar"></div>' +
+                '<div class="skeleton-bar"></div>' +
+                '<div class="skeleton-bar"></div>' +
+            '</div>';
+        }
+
+        // ---- Utility: escape HTML for display ----
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function escapeAttr(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
 
         // Theme Management
         function toggleTheme() {
@@ -881,8 +1301,8 @@
                 const tag = document.createElement('div');
                 tag.className = 'filter-tag';
                 tag.innerHTML = `
-                    <span><strong>${key}</strong>: ${value}</span>
-                    <span class="filter-remove" onclick="removeFilter('${key}')">×</span>
+                    <span><strong>${escapeHtml(key)}</strong>: ${escapeHtml(value)}</span>
+                    <span class="filter-remove" onclick="removeFilter('${escapeAttr(key)}')">x</span>
                 `;
                 container.appendChild(tag);
             });
@@ -896,7 +1316,12 @@
             }
         }
 
-        function addMessage(type, content, citations = [], citationDetails = [], metrics = null, metadata = null) {
+        function addMessage(type, content, citations, citationDetails, metrics, metadata) {
+            citations = citations || [];
+            citationDetails = citationDetails || [];
+            metrics = metrics || null;
+            metadata = metadata || null;
+
             const messagesContainer = document.getElementById('messages');
 
             // Remove empty state
@@ -906,85 +1331,57 @@
             }
 
             const message = document.createElement('div');
-            message.className = `message ${type}-message`;
+            message.className = 'message ' + type + '-message';
 
-            // Generate badges for cache hits and fallbacks
-            let badgesHTML = '';
-            if (metadata) {
-                if (metadata.cacheHit) {
-                    const similarity = metadata.cacheSimilarity ? Math.round(metadata.cacheSimilarity * 100) : 0;
-                    badgesHTML += `<span class="cache-badge">Cached (${similarity}% match)</span>`;
-                }
-                if (metadata.llmFallback) {
-                    badgesHTML += `<span class="fallback-badge">Fallback</span>`;
-                }
+            // Build confidence badge
+            let confidenceBadgeHTML = '';
+            if (type === 'assistant') {
+                const isPartial = metrics && metrics.partial;
+                confidenceBadgeHTML = buildConfidenceBadge(metadata, citations.length > 0 ? citations : (citationDetails.length > 0 ? citationDetails : []), isPartial);
             }
 
-            let citationsHTML = '';
-            if (citationDetails && citationDetails.length > 0) {
-                // Use citationDetails if available (has meaningful metadata)
-                citationsHTML = `
-                    <div class="citations">
-                        <strong>📚 Sources:</strong><br>
-                        ${citationDetails.map(c => {
-                            // Prefer section (human-readable title) over source (filename)
-                            const displayText = c.section ? c.section.replace(/^#+ /, '') : c.source;
-                            const title = `${c.source}${c.section ? ' - ' + c.section : ''}`;
-                            return `<span class="citation-tag" title="${title}">${displayText}</span>`;
-                        }).join('')}
-                    </div>
-                `;
-            } else if (citations && citations.length > 0) {
-                // Fallback to citations if citationDetails not available
-                citationsHTML = `
-                    <div class="citations">
-                        <strong>📚 Sources:</strong><br>
-                        ${citations.map(c => `<span class="citation-tag">${c}</span>`).join('')}
-                    </div>
-                `;
-            }
+            // Build citations
+            const citationsHTML = buildCitationsHTML(citations, citationDetails);
 
+            // Build source snippets
+            const snippetsHTML = buildSourceSnippets(citationDetails);
+
+            // Build metrics
             let metricsHTML = '';
             if (metrics) {
-                metricsHTML = `
-                    <div class="metrics">
-                        <div class="metric">
-                            <span class="metric-label">⚡ Time:</span>
-                            <span class="metric-value">${metrics.ttftMillis || metrics.time || 0}ms</span>
-                        </div>
-                        ${metrics.tokens ? `
-                        <div class="metric">
-                            <span class="metric-label">🔤 Tokens:</span>
-                            <span class="metric-value">${metrics.tokens}</span>
-                        </div>
-                        ` : ''}
-                        ${metrics.partial !== undefined ? `
-                        <div class="metric">
-                            <span class="metric-label">📊 Status:</span>
-                            <span class="metric-value">${metrics.partial ? 'Partial' : 'Complete'}</span>
-                        </div>
-                        ` : ''}
-                    </div>
-                `;
+                metricsHTML = '<div class="metrics">';
+                metricsHTML += '<div class="metric"><span class="metric-label">Time:</span><span class="metric-value">' + (metrics.ttftMillis || metrics.time || 0) + 'ms</span></div>';
+                if (metrics.tokens) {
+                    metricsHTML += '<div class="metric"><span class="metric-label">Tokens:</span><span class="metric-value">' + metrics.tokens + '</span></div>';
+                }
+                if (metrics.partial !== undefined) {
+                    metricsHTML += '<div class="metric"><span class="metric-label">Status:</span><span class="metric-value">' + (metrics.partial ? 'Partial' : 'Complete') + '</span></div>';
+                }
+                metricsHTML += '</div>';
             }
 
-            message.innerHTML = `
-                <div class="message-header">
-                    <div class="message-avatar ${type}-avatar">
-                        ${type === 'user' ? '👤' : '🤖'}
-                    </div>
-                    <span>${type === 'user' ? 'You' : 'Assistant'}</span>
-                    <span style="opacity: 0.6; font-size: 0.85rem; font-weight: normal;">
-                        ${new Date().toLocaleTimeString()}
-                    </span>
-                    ${badgesHTML}
-                </div>
-                <div class="message-content">
-                    ${content}
-                    ${citationsHTML}
-                    ${metricsHTML}
-                </div>
-            `;
+            // Render content with markdown for assistant messages
+            const renderedContent = type === 'assistant'
+                ? '<div class="md-content">' + renderMarkdown(content) + '</div>'
+                : escapeHtml(content);
+
+            message.innerHTML =
+                '<div class="message-header">' +
+                    '<div class="message-avatar ' + type + '-avatar">' +
+                        (type === 'user' ? '&#128100;' : '&#129302;') +
+                    '</div>' +
+                    '<span>' + (type === 'user' ? 'You' : 'Assistant') + '</span>' +
+                    '<span style="opacity: 0.6; font-size: 0.85rem; font-weight: normal;">' +
+                        new Date().toLocaleTimeString() +
+                    '</span>' +
+                    confidenceBadgeHTML +
+                '</div>' +
+                '<div class="message-content">' +
+                    renderedContent +
+                    citationsHTML +
+                    snippetsHTML +
+                    metricsHTML +
+                '</div>';
 
             messagesContainer.appendChild(message);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -1018,15 +1415,31 @@
                     await handleNormalQuery(apiEndpoint, query, topK, startTime);
                 }
             } catch (error) {
-                addMessage('assistant', `❌ Error: ${error.message}`);
+                addMessage('assistant', 'Error: ' + error.message);
             } finally {
                 sendButton.disabled = false;
-                sendButton.innerHTML = '<span>📤</span><span>Send</span>';
+                sendButton.innerHTML = '<span>Send</span>';
             }
         }
 
         async function handleNormalQuery(apiEndpoint, query, topK, startTime) {
-            const response = await fetch(`${apiEndpoint}/v1/ask`, {
+            // Show skeleton loader
+            const messagesContainer = document.getElementById('messages');
+            const emptyState = messagesContainer.querySelector('.empty-state');
+            if (emptyState) emptyState.remove();
+
+            const skeletonDiv = document.createElement('div');
+            skeletonDiv.className = 'message assistant-message';
+            skeletonDiv.innerHTML =
+                '<div class="message-header">' +
+                    '<div class="message-avatar assistant-avatar">&#129302;</div>' +
+                    '<span>Assistant</span>' +
+                '</div>' +
+                buildSkeletonHTML();
+            messagesContainer.appendChild(skeletonDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            const response = await fetch(apiEndpoint + '/v1/ask', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -1036,8 +1449,11 @@
                 })
             });
 
+            // Remove skeleton
+            skeletonDiv.remove();
+
             if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                throw new Error('HTTP ' + response.status + ': ' + response.statusText);
             }
 
             const data = await response.json();
@@ -1052,69 +1468,117 @@
         }
 
         async function handleStreamQuery(apiEndpoint, query, topK, startTime) {
-            const url = `${apiEndpoint}/v1/ask/stream?prompt=${encodeURIComponent(query)}&topK=${topK}`;
+            const url = apiEndpoint + '/v1/ask/stream?prompt=' + encodeURIComponent(query) + '&topK=' + topK;
 
             const eventSource = new EventSource(url);
             let fullAnswer = '';
             let citations = [];
+            let citationDetails = [];
+            let metadata = null;
             let isPartial = false;
 
-            // Add placeholder message
+            // Add placeholder message with skeleton
             const messagesContainer = document.getElementById('messages');
+            const emptyState = messagesContainer.querySelector('.empty-state');
+            if (emptyState) emptyState.remove();
+
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message assistant-message';
-            messageDiv.innerHTML = `
-                <div class="message-header">
-                    <div class="message-avatar assistant-avatar">🤖</div>
-                    <span>Assistant</span>
-                    <span style="opacity: 0.6; font-size: 0.85rem; font-weight: normal;">
-                        ${new Date().toLocaleTimeString()}
-                    </span>
-                </div>
-                <div class="message-content">
-                    <span class="loading"></span> Thinking...
-                </div>
-            `;
+            const timestamp = new Date().toLocaleTimeString();
+            messageDiv.innerHTML =
+                '<div class="message-header">' +
+                    '<div class="message-avatar assistant-avatar">&#129302;</div>' +
+                    '<span>Assistant</span>' +
+                    '<span style="opacity: 0.6; font-size: 0.85rem; font-weight: normal;">' +
+                        timestamp +
+                    '</span>' +
+                '</div>' +
+                buildSkeletonHTML();
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
+            let firstToken = true;
+
             return new Promise((resolve, reject) => {
                 eventSource.addEventListener('token', (event) => {
+                    if (firstToken) {
+                        // Replace skeleton with content area
+                        const skeleton = messageDiv.querySelector('.skeleton-loader');
+                        if (skeleton) skeleton.remove();
+                        // Ensure message-content div exists
+                        if (!messageDiv.querySelector('.message-content')) {
+                            const contentDiv = document.createElement('div');
+                            contentDiv.className = 'message-content';
+                            contentDiv.innerHTML = '<div class="md-content"></div>';
+                            messageDiv.appendChild(contentDiv);
+                        }
+                        firstToken = false;
+                    }
                     fullAnswer += event.data + ' ';
-                    messageDiv.querySelector('.message-content').textContent = fullAnswer;
+                    const mdEl = messageDiv.querySelector('.md-content');
+                    if (mdEl) {
+                        mdEl.innerHTML = renderMarkdown(fullAnswer);
+                    }
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 });
 
                 eventSource.addEventListener('complete', (event) => {
-                    citations = event.data ? event.data.split(',') : [];
-                    isPartial = event.lastEventId === 'partial';
+                    let completeData = null;
+                    try {
+                        completeData = JSON.parse(event.data);
+                    } catch(e) {
+                        // Fallback: data might be comma-separated citation IDs
+                        citations = event.data ? event.data.split(',') : [];
+                    }
+
+                    if (completeData) {
+                        citations = completeData.citations || [];
+                        citationDetails = completeData.citationDetails || [];
+                        metadata = completeData.metadata || null;
+                        isPartial = !!completeData.partial;
+                        if (completeData.answer && !fullAnswer.trim()) {
+                            fullAnswer = completeData.answer;
+                        }
+                    } else {
+                        isPartial = event.lastEventId === 'partial';
+                    }
 
                     const responseTime = Date.now() - startTime;
 
-                    let citationsHTML = '';
-                    if (citations.length > 0) {
-                        citationsHTML = `
-                            <div class="citations">
-                                <strong>📚 Sources:</strong><br>
-                                ${citations.map(c => `<span class="citation-tag">${c}</span>`).join('')}
-                            </div>
-                        `;
+                    // Build confidence badge and update header
+                    const allCitations = citationDetails.length > 0 ? citationDetails : citations;
+                    const confidenceBadgeHTML = buildConfidenceBadge(metadata, allCitations, isPartial);
+                    if (confidenceBadgeHTML) {
+                        const header = messageDiv.querySelector('.message-header');
+                        if (header) {
+                            header.insertAdjacentHTML('beforeend', confidenceBadgeHTML);
+                        }
                     }
 
-                    messageDiv.querySelector('.message-content').innerHTML = `
-                        ${fullAnswer}
-                        ${citationsHTML}
-                        <div class="metrics">
-                            <div class="metric">
-                                <span class="metric-label">⚡ Time:</span>
-                                <span class="metric-value">${responseTime}ms</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">📊 Status:</span>
-                                <span class="metric-value">${isPartial ? 'Partial' : 'Complete'}</span>
-                            </div>
-                        </div>
-                    `;
+                    // Build final content
+                    const citationsHTML = buildCitationsHTML(citations, citationDetails);
+                    const snippetsHTML = buildSourceSnippets(citationDetails);
+                    const metricsHTML =
+                        '<div class="metrics">' +
+                            '<div class="metric"><span class="metric-label">Time:</span><span class="metric-value">' + responseTime + 'ms</span></div>' +
+                            '<div class="metric"><span class="metric-label">Status:</span><span class="metric-value">' + (isPartial ? 'Partial' : 'Complete') + '</span></div>' +
+                        '</div>';
+
+                    // Ensure content div exists (in case no tokens were received)
+                    let contentDiv = messageDiv.querySelector('.message-content');
+                    if (!contentDiv) {
+                        const skeleton = messageDiv.querySelector('.skeleton-loader');
+                        if (skeleton) skeleton.remove();
+                        contentDiv = document.createElement('div');
+                        contentDiv.className = 'message-content';
+                        messageDiv.appendChild(contentDiv);
+                    }
+
+                    contentDiv.innerHTML =
+                        '<div class="md-content">' + renderMarkdown(fullAnswer) + '</div>' +
+                        citationsHTML +
+                        snippetsHTML +
+                        metricsHTML;
 
                     updateStats(query, responseTime);
                     eventSource.close();
@@ -1123,8 +1587,15 @@
 
                 eventSource.onerror = (error) => {
                     eventSource.close();
-                    messageDiv.querySelector('.message-content').innerHTML =
-                        '❌ Error: Failed to receive streaming response';
+                    const skeleton = messageDiv.querySelector('.skeleton-loader');
+                    if (skeleton) skeleton.remove();
+                    let contentDiv = messageDiv.querySelector('.message-content');
+                    if (!contentDiv) {
+                        contentDiv = document.createElement('div');
+                        contentDiv.className = 'message-content';
+                        messageDiv.appendChild(contentDiv);
+                    }
+                    contentDiv.innerHTML = 'Error: Failed to receive streaming response';
                     reject(error);
                 };
 
@@ -1144,10 +1615,9 @@
             const avgTime = Math.round(responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length);
             document.getElementById('avgResponseTime').textContent = avgTime;
 
-            document.getElementById('lastMetrics').innerHTML = `
-                <div><strong>Last Query:</strong> ${responseTime}ms</div>
-                <div><strong>Filters:</strong> ${Object.keys(filters).length} active</div>
-            `;
+            document.getElementById('lastMetrics').innerHTML =
+                '<div><strong>Last Query:</strong> ' + responseTime + 'ms</div>' +
+                '<div><strong>Filters:</strong> ' + Object.keys(filters).length + ' active</div>';
 
             // Add to history
             queryHistory.unshift({
@@ -1173,10 +1643,9 @@
                 historyItem.onclick = () => {
                     document.getElementById('queryInput').value = item.query;
                 };
-                historyItem.innerHTML = `
-                    <div class="history-query">${item.query}</div>
-                    <div class="history-time">${item.time}</div>
-                `;
+                historyItem.innerHTML =
+                    '<div class="history-query">' + escapeHtml(item.query) + '</div>' +
+                    '<div class="history-time">' + item.time + '</div>';
                 container.appendChild(historyItem);
             });
         }
@@ -1184,13 +1653,12 @@
         function clearChat() {
             if (confirm('Clear all messages?')) {
                 const messagesContainer = document.getElementById('messages');
-                messagesContainer.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🚀</div>
-                        <div class="empty-state-text">Ready to assist!</div>
-                        <div class="empty-state-hint">Ask me anything about your knowledge base</div>
-                    </div>
-                `;
+                messagesContainer.innerHTML =
+                    '<div class="empty-state">' +
+                        '<div class="empty-state-icon">&#128640;</div>' +
+                        '<div class="empty-state-text">Ready to assist!</div>' +
+                        '<div class="empty-state-hint">Ask me anything about your knowledge base</div>' +
+                    '</div>';
             }
         }
 
@@ -1201,33 +1669,31 @@
             statusDiv.innerHTML = '<div style="margin-top: 10px; opacity: 0.8;">Testing...</div>';
 
             try {
-                const response = await fetch(`${apiEndpoint}/actuator/health`, {
+                const response = await fetch(apiEndpoint + '/actuator/health', {
                     method: 'GET',
                     timeout: 5000
                 });
 
                 if (response.ok) {
                     const data = await response.json();
-                    statusDiv.innerHTML = `
-                        <div style="margin-top: 15px;">
-                            <span class="status-badge status-online">
-                                <span class="status-dot"></span>
-                                Connected
-                            </span>
-                        </div>
-                    `;
+                    statusDiv.innerHTML =
+                        '<div style="margin-top: 15px;">' +
+                            '<span class="status-badge status-online">' +
+                                '<span class="status-dot"></span>' +
+                                'Connected' +
+                            '</span>' +
+                        '</div>';
                 } else {
                     throw new Error('Service unavailable');
                 }
             } catch (error) {
-                statusDiv.innerHTML = `
-                    <div style="margin-top: 15px;">
-                        <span class="status-badge status-offline">
-                            <span class="status-dot"></span>
-                            Offline
-                        </span>
-                    </div>
-                `;
+                statusDiv.innerHTML =
+                    '<div style="margin-top: 15px;">' +
+                        '<span class="status-badge status-offline">' +
+                            '<span class="status-dot"></span>' +
+                            'Offline' +
+                        '</span>' +
+                    '</div>';
             }
         }
 
@@ -1256,16 +1722,16 @@
             container.innerHTML = '<div class="loading-spinner">Loading documents...</div>';
 
             try {
-                const response = await fetch(`${apiEndpoint}/v1/documents`);
+                const response = await fetch(apiEndpoint + '/v1/documents');
 
                 if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    throw new Error('HTTP ' + response.status + ': ' + response.statusText);
                 }
 
                 const documents = await response.json();
                 renderDocuments(documents);
             } catch (error) {
-                container.innerHTML = `<div style="text-align: center; padding: 20px; opacity: 0.6;">Failed to load documents</div>`;
+                container.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.6;">Failed to load documents</div>';
             }
         }
 
@@ -1299,12 +1765,11 @@
                 docItem.className = 'document-item';
                 docItem.onclick = () => addDocumentFilter(docId);
 
-                docItem.innerHTML = `
-                    <div class="document-id">${docId}</div>
-                    <div class="document-meta">Source: ${source}</div>
-                    ${section ? `<div class="document-meta">Section: ${section}</div>` : ''}
-                    <div class="document-chunks">${chunkCount} chunk${chunkCount > 1 ? 's' : ''}</div>
-                `;
+                docItem.innerHTML =
+                    '<div class="document-id">' + escapeHtml(docId) + '</div>' +
+                    '<div class="document-meta">Source: ' + escapeHtml(source) + '</div>' +
+                    (section ? '<div class="document-meta">Section: ' + escapeHtml(section) + '</div>' : '') +
+                    '<div class="document-chunks">' + chunkCount + ' chunk' + (chunkCount > 1 ? 's' : '') + '</div>';
 
                 container.appendChild(docItem);
             });

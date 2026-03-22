@@ -43,8 +43,8 @@ public class LlmClient {
         return objectMapper.createObjectNode()
                 .put("model", properties.getModelName())
                 .put("prompt", prompt)
-                .put("temperature", 0.7)
-                .put("max_tokens", 512);
+                .put("temperature", properties.getTemperature())
+                .put("max_tokens", properties.getMaxTokens());
     }
 
     private LlmResponse toResponse(String prompt, Instant start, JsonNode node) {
@@ -66,7 +66,7 @@ public class LlmClient {
             text = "I don't know.";
         }
         long ttft = Duration.between(start, Instant.now()).toMillis();
-        int tokens = Math.max(1, text.split("\\s+").length);
+        int tokens = Math.max(1, text.length() / 4);
         return new LlmResponse(text, ttft, tokens);
     }
 

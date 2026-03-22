@@ -3,10 +3,12 @@ kind: InferenceService
 metadata:
   name: rag-llm
   namespace: rag
+  annotations:
+    serving.knative.dev/progress-deadline: "600s"
 spec:
   predictor:
     serviceAccountName: orchestrator
-    minReplicas: 0
+    minReplicas: 1
     maxReplicas: 1
     scaleTarget: 1
     scaleMetric: concurrency
@@ -16,7 +18,7 @@ spec:
         name: huggingface
       args:
         - --model
-        - google/gemma-2-2b-it
+        - google/gemma-3-4b-it
         - --dtype
         - auto
         - --max-model-len

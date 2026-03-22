@@ -34,11 +34,16 @@ class RetrieverServiceTest {
     void setup() {
         RetrieverProperties properties = new RetrieverProperties();
         properties.setTimeoutMs(200);
+        properties.setHybridEnabled(false);
+        properties.setRerankEnabled(false);
+        SimpleMeterRegistry meterRegistry = new SimpleMeterRegistry();
+        Reranker reranker = new Reranker(meterRegistry);
         retrieverService = new RetrieverService(
                 weaviateGateway,
                 openSearchGateway,
+                reranker,
                 properties,
-                new SimpleMeterRegistry());
+                meterRegistry);
     }
 
     @Test

@@ -51,7 +51,7 @@ spec:
               mountPath: /otel
       containers:
         - name: orchestrator
-          image: europe-north1-docker.pkg.dev/mohamed-playground/rag-demo/rag-orchestrator:v1.0.5
+          image: europe-north1-docker.pkg.dev/mohamed-playground/rag-demo/rag-orchestrator:v1.0.9
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

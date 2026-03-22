@@ -16,7 +16,7 @@ GPU_MAX_NODES ?= 1
 
 .PHONY: help build test deploy ingest port-forward down clean
 .PHONY: gke-cluster gke-gpu gke-credentials gke-deploy gke-expose
-.PHONY: dev-up dev-down build-local
+.PHONY: dev-up dev-down build-local flush-cache wipe-weaviate
 
 # Default target
 help:
@@ -44,6 +44,8 @@ help:
 	@echo "  port-forward   Port-forward services locally"
 	@echo "  down           Delete all deployed resources"
 	@echo "  clean          Clean build artifacts"
+	@echo "  flush-cache    Flush Redis semantic cache"
+	@echo "  wipe-weaviate  Delete Weaviate data (run before re-ingest)"
 	@echo ""
 	@echo "Environment Variables:"
 	@echo "  REGISTRY       Container registry (default: europe-north1-docker.pkg.dev/mohamed-playground/rag-demo)"
@@ -150,6 +152,18 @@ ingest:
 	kubectl -n rag wait --for=condition=complete job/rag-ingest --timeout=300s
 	kubectl -n rag delete job/rag-ingest --ignore-not-found
 	kubectl -n rag delete configmap/ingest-script --ignore-not-found
+
+flush-cache:
+	@echo "Flushing Redis semantic cache..."
+	kubectl exec -n rag deployment/redis -- redis-cli FLUSHALL
+	@echo "Cache flushed."
+
+wipe-weaviate:
+	@echo "Deleting Weaviate Doc class (all data)..."
+	kubectl run weaviate-cleanup --restart=Never -n rag --image=curlimages/curl -- -s -X DELETE http://weaviate.rag.svc.cluster.local:8080/v1/schema/Doc
+	@sleep 10
+	@kubectl delete pod weaviate-cleanup -n rag --ignore-not-found
+	@echo "Weaviate data wiped. Run 'make ingest' to re-ingest."
 
 port-forward:
 	kubectl -n rag port-forward svc/orchestrator 8080:8080 &

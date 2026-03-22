@@ -3,7 +3,7 @@ package me.aboullaite.rag.retriever.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "retriever")
-public class AM@RetrieverProperties {
+public class RetrieverProperties {
 
     /**
      * Base URL for Weaviate, e.g. http://weaviate:8080.
@@ -24,6 +24,12 @@ public class AM@RetrieverProperties {
      * Default topK value when not supplied.
      */
     private int topKDefault = 5;
+
+    private boolean hybridEnabled = true;
+
+    private boolean rerankEnabled = true;
+
+    private int retrieveK = 20;
 
     public String getWeaviateUrl() {
         return weaviateUrl;
@@ -55,5 +61,29 @@ public class AM@RetrieverProperties {
 
     public void setTopKDefault(int topKDefault) {
         this.topKDefault = topKDefault;
+    }
+
+    public boolean isHybridEnabled() {
+        return hybridEnabled;
+    }
+
+    public void setHybridEnabled(boolean hybridEnabled) {
+        this.hybridEnabled = hybridEnabled;
+    }
+
+    public boolean isRerankEnabled() {
+        return rerankEnabled;
+    }
+
+    public void setRerankEnabled(boolean rerankEnabled) {
+        this.rerankEnabled = rerankEnabled;
+    }
+
+    public int getRetrieveK() {
+        return retrieveK;
+    }
+
+    public void setRetrieveK(int retrieveK) {
+        this.retrieveK = retrieveK;
     }
 }

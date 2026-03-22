@@ -12,6 +12,8 @@ public class OrchestratorProperties {
     private String modelName = "gemma-2-2b-it";
     private String systemPrompt;
     private long cacheTtlSeconds = 600;
+    private double temperature = 0.7;
+    private int maxTokens = 512;
 
     public String getRetrieverUrl() {
         return retrieverUrl;
@@ -67,5 +69,21 @@ public class OrchestratorProperties {
 
     public void setCacheTtlSeconds(long cacheTtlSeconds) {
         this.cacheTtlSeconds = cacheTtlSeconds;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public int getMaxTokens() {
+        return maxTokens;
+    }
+
+    public void setMaxTokens(int maxTokens) {
+        this.maxTokens = maxTokens;
     }
 }

@@ -4,9 +4,10 @@ metadata:
   name: retriever-config
   namespace: rag
 data:
-  RETRIEVAL_TIMEOUT_MS: "250"
+  RETRIEVAL_TIMEOUT_MS: "500"
   WEAVIATE_URL: "http://weaviate.rag.svc.cluster.local:8080"
   OPENSEARCH_URL: "http://opensearch.rag.svc.cluster.local:9200"
+  HYBRID_ENABLED: "true"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -16,6 +17,7 @@ metadata:
 data:
   RETRIEVER_URL: "http://retriever.rag.svc.cluster.local:8081"
   LLM_URL: "http://rag-llm-predictor.rag.svc.cluster.local/v1/completions"
-  CACHE_SIM_THRESHOLD: "0.9"
-  GEN_TIMEOUT_MS: "30000"
-  MODEL_NAME: "google/gemma-2-2b-it"
+  CACHE_SIM_THRESHOLD: "0.87"
+  GEN_TIMEOUT_MS: "5000"
+  CACHE_TTL_SECONDS: "3600"
+  MODEL_NAME: "google/gemma-3-4b-it"

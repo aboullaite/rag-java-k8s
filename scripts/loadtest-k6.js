@@ -11,7 +11,7 @@ export const options = {
 };
 
 const SUCCESS = new Counter('ask_success');
-const ORCHESTRATOR_URL = __ENV.ORCHESTRATOR_URL || 'http://localhost:8080/v1/ask';
+const ORCHESTRATOR_URL = __ENV.ORCHESTRATOR_URL || 'http://136.112.28.111/v1/ask';
 const PROMPTS = [
   'Summarize the RAG Java platform architecture.',
   'How does the semantic cache make retrieval faster?',

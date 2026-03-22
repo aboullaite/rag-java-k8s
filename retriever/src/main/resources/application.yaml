@@ -23,8 +23,11 @@ management:
 retriever:
   weaviate-url: ${WEAVIATE_URL:http://weaviate.rag.svc.cluster.local:8080}
   opensearch-url: ${OPENSEARCH_URL:}
-  timeout-ms: ${RETRIEVAL_TIMEOUT_MS:250}
+  timeout-ms: ${RETRIEVAL_TIMEOUT_MS:500}
   top-k-default: 5
+  hybrid-enabled: ${HYBRID_ENABLED:true}
+  rerank-enabled: ${RERANK_ENABLED:true}
+  retrieve-k: ${RETRIEVE_K:20}
 
 weaviate:
   class-name: Doc

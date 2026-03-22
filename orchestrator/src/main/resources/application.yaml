@@ -28,13 +28,25 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+      slo:
+        "[http.server.requests]": 10ms,50ms,100ms,200ms,500ms,1000ms,2000ms,5000ms
+  prometheus:
+    metrics:
+      export:
+        enabled: true
 
 rag:
   retriever-url: ${RETRIEVER_URL:http://retriever.rag.svc.cluster.local:8081}
   llm-url: ${LLM_URL:http://kserve-model.rag.svc.cluster.local/v1/models/rag:predict}
-  cache-sim-threshold: ${CACHE_SIM_THRESHOLD:0.90}
-  gen-timeout-ms: ${GEN_TIMEOUT_MS:1800}
-  model-name: ${MODEL_NAME:gemma-2-2b-it}
+  cache-sim-threshold: ${CACHE_SIM_THRESHOLD:0.87}
+  gen-timeout-ms: ${GEN_TIMEOUT_MS:5000}
+  cache-ttl-seconds: ${CACHE_TTL_SECONDS:3600}
+  model-name: ${MODEL_NAME:google/gemma-3-4b-it}
+  temperature: ${LLM_TEMPERATURE:0.7}
+  max-tokens: ${LLM_MAX_TOKENS:512}
   system-prompt: |
     You are a helpful assistant that answers questions based solely on the provided context documents.
 

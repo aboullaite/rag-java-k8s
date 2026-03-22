@@ -4,6 +4,8 @@ import me.aboullaite.rag.common.dto.DocumentMetadata;
 import me.aboullaite.rag.common.dto.GenerationResponse;
 import me.aboullaite.rag.orchestrator.service.AskService;
 import me.aboullaite.rag.orchestrator.service.DocumentService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
@@ -27,10 +29,12 @@ public class AskController {
 
     private final AskService askService;
     private final DocumentService documentService;
+    private final ObjectMapper objectMapper;
 
-    public AskController(AskService askService, DocumentService documentService) {
+    public AskController(AskService askService, DocumentService documentService, ObjectMapper objectMapper) {
         this.askService = askService;
         this.documentService = documentService;
+        this.objectMapper = objectMapper;
     }
 
     @PostMapping(path = "/ask", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -56,9 +60,20 @@ public class AskController {
         Flux<ServerSentEvent<String>> tokenFlux = Flux.fromIterable(tokens)
                 .map(token -> ServerSentEvent.<String>builder(token).event("token").build())
                 .delayElements(Duration.ofMillis(20));
+        String completeData;
+        try {
+            completeData = objectMapper.writeValueAsString(Map.of(
+                    "citations", response.citations(),
+                    "citationDetails", response.citationDetails(),
+                    "partial", response.partial(),
+                    "metadata", response.metadata() != null ? response.metadata() : Map.of()
+            ));
+        } catch (JsonProcessingException e) {
+            completeData = String.join(",", response.citations());
+        }
         ServerSentEvent<String> completion = ServerSentEvent.<String>builder()
                 .event("complete")
-                .data(String.join(",", response.citations()))
+                .data(completeData)
                 .comment(response.partial() ? "partial" : "complete")
                 .build();
         return tokenFlux.concatWithValues(completion);

@@ -202,16 +202,7 @@ public class AskService {
     }
 
     private String ensureCitations(String answer, List<String> citations) {
-        if (citations.isEmpty()) {
-            return answer;
-        }
-        boolean alreadyCited = citations.stream().anyMatch(answer::contains);
-        if (alreadyCited) {
-            return answer;
-        }
-        return answer + "\n\nSources: " + citations.stream()
-                .map(id -> "[" + id + "]")
-                .toList();
+        return answer;
     }
 
     private String redact(String prompt) {

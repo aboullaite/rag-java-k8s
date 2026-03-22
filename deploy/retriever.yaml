@@ -50,7 +50,7 @@ spec:
               mountPath: /otel
       containers:
         - name: retriever
-          image: europe-north1-docker.pkg.dev/mohamed-playground/rag-demo/rag-retriever:v1.0.0
+          image: europe-north1-docker.pkg.dev/mohamed-playground/rag-demo/rag-retriever:v1.0.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
